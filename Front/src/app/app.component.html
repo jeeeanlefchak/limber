@@ -1,0 +1,72 @@
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<div id="componentePrincipal">
+    <mat-toolbar>
+        <mat-toolbar-row>
+            <span class="Cancelar" *ngIf="numeroTela != 1 && numeroTela != 6" (click)="mudarTela(1, true)">Voltar</span>
+            <span class="titulo" *ngIf="numeroTela == 1 || numeroTela == 6">Contatos</span>
+            <span class="titulo" *ngIf="numeroTela == 2">Detalhes</span>
+            <span class="titulo" *ngIf="numeroTela == 3 || numeroTela == 5">Editar</span>
+            <span class="titulo" *ngIf="numeroTela == 4">Novo Contato</span>
+            <span *ngIf="numeroTela == 1 || numeroTela == 6" (click)="numeroTela = 4">
+                <mat-icon>add</mat-icon>
+            </span>
+            <span [ngClass]="{'salvar':contato.name && contato.email && contato.twitter && contato.phone}" (click)="salvar()"
+                *ngIf="numeroTela == 3 || numeroTela == 4" matTooltip="Salvar">OK</span>
+        </mat-toolbar-row>
+    </mat-toolbar>
+    <mat-card class="cardPrincipal ">
+        <mat-card class="cardContato" [ngClass]="{'visualizar': numeroTela == 1 ||  (numeroTela == 6 && contact.favorite == true) ,'fundoCard': contact == contatoSelecionado}"
+            *ngFor="let contact of listaContatos" (click)="contatoSelecionado = contact">
+            <div class="acoes" [ngClass]="{'contatoSelecionado': contact == contatoSelecionado}">
+                <button mat-icon-button (click)="detalhes(contact)" matTooltip="Detalhes">
+                    <mat-icon>info</mat-icon>
+                </button>
+                <button mat-icon-button (click)="editar(contact)" matTooltip="Editar">
+                    <mat-icon>edit</mat-icon>
+                </button>
+            </div>
+            <mat-icon class="iconFavorite" (click)="marcarFavorito(contact)" [ngClass]="{'favorite' : contact.favorite}">star_rate</mat-icon>
+            <span style="width: 1%;"></span>
+            <span class="nomeContato">
+                {{contact.name}}
+            </span>
+        </mat-card>
+
+        <form [ngClass]="{'excluindoRegistro': numeroTela == 5}" class="open" *ngIf="numeroTela == 2 || numeroTela == 3 || numeroTela == 4 || numeroTela == 5">
+            <mat-form-field>
+                <input matInput placeholder="Nome" [(ngModel)]="contato.name" [ngModelOptions]="{standalone: true}">
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="Email" [(ngModel)]="contato.email" [ngModelOptions]="{standalone: true}">
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="Twitter" [(ngModel)]="contato.twitter" [ngModelOptions]="{standalone: true}">
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="Número" [(ngModel)]="contato.phone" [ngModelOptions]="{standalone: true}">
+            </mat-form-field>
+            <button mat-button (click)="numeroTela = 5" *ngIf="numeroTela == 3" class="btnExcluir">
+                <mat-icon>remove</mat-icon> <span>Excluir Contato</span>
+            </button>
+        </form>
+        <div class="telaExcluir" *ngIf="numeroTela == 5">
+            <mat-card class="cardExcluir">
+                <mat-card-title>Tem Certeza que deseja Excluir ? </mat-card-title>
+                <mat-card-actions>
+                    <button mat-button class="sim" (click)="excluir(contato)">SIM</button>
+                    <button mat-button class="cancelar" (click)="numeroTela = 3">CANCELAR</button>
+                </mat-card-actions>
+            </mat-card>
+        </div>
+    </mat-card>
+    <mat-toolbar class="toolBarBotton">
+        <div>
+            <button matTooltip="Contatos" mat-icon-button (click)="mudarTela(1, true)" [ngClass]="{'selected': numeroTela == 1}">
+                <mat-icon>contacts</mat-icon>
+            </button>
+            <button matTooltip="Favoritos" mat-icon-button (click)="numeroTela = 6" [ngClass]="{'selected': numeroTela == 6}">
+                <mat-icon>favorite</mat-icon>
+            </button>
+        </div>
+    </mat-toolbar>
+</div>
