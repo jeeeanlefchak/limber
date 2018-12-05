@@ -25,18 +25,22 @@
                     <mat-icon>edit</mat-icon>
                 </button>
             </div>
-            <mat-icon class="iconFavorite" (click)="marcarFavorito(contact)" [ngClass]="{'favorite' : contact.favorite}">star_rate</mat-icon>
-            <span style="width: 1%;"></span>
-            <span class="nomeContato">
-                {{contact.name}}
+            <span>
+                <mat-icon (click)="marcarFavorito(contact)" [ngClass]="{'favorite' : contact.favorite}">star_rate</mat-icon>
             </span>
+            <span style="width: 1%;"></span>
+            <div class="nomeContato">
+                <span class="nomeContato">
+                    {{contact.name}}
+                </span>
+            </div>
         </mat-card>
 
         <form [ngClass]="{'excluindoRegistro': numeroTela == 5}" class="open" *ngIf="numeroTela == 2 || numeroTela == 3 || numeroTela == 4 || numeroTela == 5">
             <mat-form-field>
                 <input matInput placeholder="Nome" [(ngModel)]="contato.name" [ngModelOptions]="{standalone: true}">
             </mat-form-field>
-            <mat-form-field>
+            <mat-form-field *ngIf="numeroTela != 3">
                 <input matInput placeholder="Email" [(ngModel)]="contato.email" [ngModelOptions]="{standalone: true}">
             </mat-form-field>
             <mat-form-field>
